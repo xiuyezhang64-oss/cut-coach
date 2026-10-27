@@ -36,7 +36,34 @@
 
 ## 安装
 
-### 方式一：Claude Code（推荐，支持自动建档）
+### 推荐：像项目一样用（最简单，适合朋友）
+
+前提：装好 Claude 桌面版（Code 标签页）或 Claude Code，电脑上有 [Git](https://git-scm.com/downloads) 和 Python 3.8 以上。
+
+1. **新建一个空文件夹**，比如 `D:\cut-coach`。在 Claude 里新建会话，文件夹选它。
+2. **把下面这段话发给 Claude**：
+   ```
+   请把 GitHub 仓库 https://github.com/xiuyezhang64-oss/cut-coach 克隆到当前文件夹（直接放在当前文件夹里，不要再套一层子目录），然后按 CLAUDE.md 帮我做第一次配置。
+   ```
+3. Claude 会检查 Python、建好你的数据文件夹 `me/`，然后开始问你身高体重这些，做出你的计划。
+4. 以后每次**新开会话说 `hello`**，就会出菜单：
+
+   | # | 做什么 |
+   |---|---|
+   | 1 | 做计划 / 改计划 |
+   | 2 | 安排今天（或明天）吃什么 |
+   | 3 | 算还能吃多少 |
+   | 4 | 记录：晨重 / 训练 |
+   | 5 | 今天练什么 |
+   | 6 | 外卖、聚餐、看食品标签 |
+   | 7 | 两周复盘 |
+
+   回个数字就开始。也可以不出菜单，直接说"今天晨重 71.2"、"中午吃了……还能吃多少"。
+5. **作者更新了新版本**：跟 Claude 说"更新项目"，它只拉取、不会动你的数据。
+
+> 你的数据都在 `me/` 文件夹里，只在你自己电脑上，不会上传。
+
+### 方式二：作为插件安装（Claude Code）
 
 在 Claude Code 对话框里输入：
 ```
@@ -52,14 +79,14 @@ claude plugin install cut-coach@cut-coach-marketplace
 
 装好后重启 Claude Code。
 
-### 方式二：Claude 网页版 / App
+### 方式三：Claude 网页版 / App
 
 1. **Settings → Capabilities**，打开 **Code execution and file creation**
 2. **Customize → Plugins → Add → Add marketplace**，填 `xiuyezhang64-oss/cut-coach`，然后安装 `cut-coach`
 
 > 网页版不能长期保存文件。每次方案有改动，Claude 会在回答末尾给一段**"存档卡"**。建议建一个 **Project**，把存档卡放进项目知识库；以后都在这个 Project 里聊。
 
-### 方式三：手动安装
+### 方式四：手动安装
 
 下载本仓库，把 `plugins/cut-coach/skills/cut-coach` 这个文件夹复制到：
 - Windows：`C:\Users\<你的用户名>\.claude\skills\`
@@ -72,7 +99,7 @@ claude plugin install cut-coach@cut-coach-marketplace
 ## 快速开始
 
 1. 准备一个**厨房秤**。
-2. 跟 Claude 说：
+2. 项目模式说 `hello` 选 1；插件模式直接跟 Claude 说：
    ```
    帮我做一个减脂计划
    ```
@@ -133,7 +160,7 @@ claude plugin install cut-coach@cut-coach-marketplace
 
 ## 你的数据存在哪
 
-第一次使用时会自动创建 `~/.cut-coach/`（Windows 上是 `C:\Users\<你的用户名>\.cut-coach\`）：
+项目模式下存在仓库里的 `me/` 文件夹（不上传）；插件模式下自动创建 `~/.cut-coach/`（Windows 上是 `C:\Users\<你的用户名>\.cut-coach\`）：
 
 | 文件 | 内容 |
 |---|---|
@@ -222,10 +249,12 @@ cut-coach/
 │   ├── .claude-plugin/plugin.json         插件配置
 │   └── skills/cut-coach/
 │       ├── SKILL.md                       技能主文件（教练的工作流程）
+│       ├── menu.md                        hello 菜单
 │       ├── scripts/calc.py                计算脚本：目标 / 菜单 / 体重趋势
 │       ├── references/nutrition.md        营养细则：替换表、外食估算、标签判断
 │       ├── references/training.md         训练细则：动作、加重规则、体态矫正
 │       └── assets/                        建档模板
+├── CLAUDE.md                              项目模式：hello 菜单、第一次配置、更新
 ├── README.md
 └── LICENSE
 ```
