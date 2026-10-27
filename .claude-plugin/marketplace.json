@@ -1,0 +1,12 @@
+{
+  "name": "cut-coach-marketplace",
+  "description": "中文减脂精算教练：按克计算的饮食 + 训练计划，自动建档、逐日陪练",
+  "owner": { "name": "xiuyezhang64-oss" },
+  "plugins": [
+    {
+      "name": "cut-coach",
+      "source": "./plugins/cut-coach",
+      "description": "中文减脂精算教练 skill"
+    }
+  ]
+}
