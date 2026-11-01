@@ -180,19 +180,28 @@ def cmd_trend(a):
         return (sum(xs) / len(xs), len(xs)) if xs else (None, 0)
     w1, n1 = avg(0, 7)
     w2, n2 = avg(7, 14)
+    w3, n3 = avg(14, 21)
     print(f"最近 7 天均重 {w1:.2f} kg ({n1} 条)")
-    if w2:
-        print(f"前 7 天均重 {w2:.2f} kg ({n2} 条)")
-        rate = w2 - w1
-        print(f"每周变化 ≈ -{rate:.2f} kg ({rate / w2 * 100:.2f}% 体重/周)")
-        if rate < 0.3:
-            print("建议:每周掉不到 0.3kg → 每天碳水 -25g(约 33g 生米)。肌酸刚开始、盐多、生病等会干扰,先排除再动。")
-        elif rate > 0.8:
-            print("建议:每周掉超过 0.8kg → 每天碳水 +25g。")
-        else:
-            print("速度合适,不用调。")
-    else:
+    if not w2:
         print("还不满两周,先继续记录。")
+        return
+    print(f"前 7 天均重 {w2:.2f} kg ({n2} 条)")
+    print(f"单周变化 {w1 - w2:+.2f} kg ({(w1 - w2) / w2 * 100:+.2f}%,只作参考,不据此调整)")
+    if not w3:
+        print("还不满三周数据,算不出两周平均,先继续记录。")
+        return
+    # 规则看两周平均:最近 7 天均重 对比 14–21 天前的均重,再除以 2
+    print(f"再往前 7 天均重 {w3:.2f} kg ({n3} 条)")
+    rate = (w3 - w1) / 2
+    pct = rate / w3 * 100
+    lo, hi = 0.005 * w3, 0.01 * w3
+    print(f"两周平均每周变化 {-rate:+.2f} kg ({-pct:+.2f}% 体重/周;合适是每周掉 0.5–1% = {lo:.2f}–{hi:.2f} kg)")
+    if pct < 0.5:
+        print("建议:掉得不到 0.5% → 每天碳水 -25g(约 33g 生米)。肌酸刚开始、盐多、生病等会干扰,先排除再动。")
+    elif pct > 1:
+        print("建议:掉得超过 1% → 每天碳水 +25g。")
+    else:
+        print("速度合适,不用调。")
 
 
 def cmd_foods(_):
